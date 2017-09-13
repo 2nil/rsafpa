@@ -21,6 +21,12 @@ class Router {
                     $idSalle = intval($_GET['id']);
                     $this->equipmentCtrl->salle($idSalle);
                 }
+                elseif (intval($_GET['action'] == 'addQuantity')) {
+                    $quantity = $this->getParams($_POST, 'equipment');
+                    $idSalle = intval($_GET['id']);
+                    $equipmentName = '';
+                    $this->equipmentCtrl->addEquipment($quantity, $idSalle, $equipmentName);
+                }
             }
             else
                 $this->homeCtrl->home();
@@ -29,6 +35,14 @@ class Router {
         catch (Exception $e) {
             $this->error($e->getMessage());
         }
+    }
+
+    private function getParams($table, $name) {
+        if (isset($table[$name])) {
+            return $table[$name];
+        }
+        else
+            throw new Exception("Parametre '$name' absent");
     }
 
     private function error($errorMsg) {

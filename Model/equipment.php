@@ -4,9 +4,8 @@ require_once 'model.php';
 
 class Equipment extends Model {
 
-    public function getEquipments($idSalle)
-    {
-        $sql = ("
+    public function getEquipments($idSalle) {
+        $sql = (" 
                   SELECT rooms.id_room, equipment_quantity.quantity, equipments.name, equipments.id_equipment 
                   FROM `rooms` 
                   LEFT JOIN equipment_quantity ON rooms.id_room = equipment_quantity.id_room 
@@ -15,5 +14,17 @@ class Equipment extends Model {
                           ");
         $equipments = $this->executeRequest($sql);
         return $equipments;
+    }
+
+    public function updateQuantity($quantity, $idSalle, $equipmentName) {
+        $sql = (" UPDATE `equipment_quantity` 
+                  SET `quantity` = $quantity 
+                  WHERE equipment_quantity.id_equipment IN
+                 (SELECT equipments.id_equipment
+                  FROM equipments
+                  WHERE equipment_quantity.id_romm = $idSalle 
+                  AND equipments.name = $equipmentName)");
+
+        $this->executeRequest($sql, array($quantity, $idSalle, $equipmentName));
     }
 }

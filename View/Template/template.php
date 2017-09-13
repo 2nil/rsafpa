@@ -2,7 +2,7 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8" />
-        <link rel="stylesheet" href="../Project/Theme/style.css" />
+        <link rel="stylesheet" href="../rsafpa/Theme/style.css" />
         <title><?= $title ?></title>
     </head>
     <body>

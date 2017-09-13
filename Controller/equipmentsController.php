@@ -20,4 +20,9 @@ class equipmentsController {
         $view = new View("equipments");
         $view->generate(array('salles' => $salles, 'equipments' => $equipments));
     }
+
+    public function addEquipment($quantity, $idSalle, $equipmentName) {
+        $this->equipment->updateQuantity($quantity, $idSalle, $equipmentName);
+        $this->equipment->getEquipments($idSalle);
+    }
 }
