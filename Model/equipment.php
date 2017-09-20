@@ -1,6 +1,6 @@
 <?php
 
-require_once 'model.php';
+require_once '/Framework/Model.php';
 
 class Equipment extends Model {
 
@@ -17,14 +17,11 @@ class Equipment extends Model {
     }
 
     public function updateQuantity($quantity, $idSalle, $equipmentName) {
-        $sql = (" UPDATE `equipment_quantity` 
-                  SET `quantity` = $quantity 
-                  WHERE equipment_quantity.id_equipment IN
-                 (SELECT equipments.id_equipment
-                  FROM equipments
-                  WHERE equipment_quantity.id_romm = $idSalle 
-                  AND equipments.name = $equipmentName)");
-
+        $sql = ("UPDATE equipment_quantity SET quantity=$quantity
+                 WHERE equipment_quantity.id_equipment IN
+                (SELECT equipments.id_equipment FROM equipments 
+                 where equipment_quantity.id_room=$idSalle AND equipments.name='$equipmentName');
+                 ");
         $this->executeRequest($sql, array($quantity, $idSalle, $equipmentName));
     }
 }

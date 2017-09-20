@@ -2,6 +2,7 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8" />
+        <base href="<?= $webRoot ?>" >
         <link rel="stylesheet" href="../rsafpa/Theme/style.css" />
         <title><?= $title ?></title>
     </head>

@@ -1,9 +1,9 @@
 <?php
 
 require_once '/Model/salle.php';
-require_once '/View/view.php';
+require_once '/Framework/Controller.php';
 
-class homeController {
+class homeController extends Controller {
 
     private $salle;
 
@@ -11,9 +11,8 @@ class homeController {
         $this->salle = new Salle();
     }
 
-    public function home() {
+    public function index() {
         $salles = $this->salle->getSalles();
-        $view = new View("home");
-        $view->generate(array('salles' => $salles));
+        $this->generateView(array('salles' => $salles));
     }
 }

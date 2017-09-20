@@ -8,17 +8,26 @@ class View {
     // Titre de la vue (défini dans le fichier vue)
     private $title;
 
-    public function __construct($action) {
+    public function __construct($action, $controller = "") {
         // Détermination du nom du fichier vue à partir de l'action
-        $this->file = "View/".$action."View.php";
+        $file = "View/";
+        if ($controller != "") {
+            $file = $file . $controller . "/";
+        }
+        $this->file = $file . $action . ".php";
     }
 
     // Génère et affiche la vue
     public function generate($data) {
         // Génération de la partie spécifique de la vue
         $content = $this->generateFile($this->file, $data);
+        // On définit une variable locale accessible par la vue pour la racine Web
+        // Il s'agit du chemin vers le site sur le serveur Web
+        // Nécessaire pour les URL de type controleur/action/id
+        $webRoot = config::get("webRoot", "/");
         // Génération du gabarit commun utilisant la partie spécifique
-        $view = $this->generateFile('View/Template/template.php', array('title' => $this->title, 'content' => $content));
+        $view = $this->generateFile('View/template.php', array('title' => $this->title, 'content' => $content,
+        'webRoot' => $webRoot));
         // Renvoi de la vue au navigateur
         echo $view;
     }
@@ -39,5 +48,9 @@ class View {
         else {
             throw new Exception("Fichier '$file' introuvable");
         }
+    }
+
+    private function clean($value) {
+        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false);
     }
 }
